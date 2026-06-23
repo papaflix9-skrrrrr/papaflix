@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import { ADMIN_EMAIL } from "@/config/admin";
 import { listenAuthState } from "@/services/auth";
 import { deleteVideo } from "@/services/videos";
+import { incrementVideoViews } from "@/services/videos";
 
 type Props = {
   video: Video;
@@ -23,6 +24,7 @@ export function VideoDetails({ video, videos }: Props) {
 
   const router = useRouter();
 const [isAdmin, setIsAdmin] = useState(false);
+const [views, setViews] = useState(video.views ?? 0);
 
 useEffect(() => {
   const unsubscribe = listenAuthState((user) => {
@@ -35,6 +37,11 @@ useEffect(() => {
 
   return () => unsubscribe();
 }, []);
+
+useEffect(() => {
+  incrementVideoViews(video.id);
+  setViews((current) => current + 1);
+}, [video.id]);
 
 async function handleDelete() {
   const confirmDelete = confirm("Tem certeza que deseja excluir este vídeo?");
@@ -70,7 +77,7 @@ async function handleDelete() {
             <S.Title>{video.title}</S.Title>
 
             <S.Views>
-            {(video.views ?? 0).toLocaleString("pt-BR")} visualizações
+          {views.toLocaleString("pt-BR")} visualizações
             </S.Views>
 
             <S.SaveButton onClick={handleSave}>❤️ Salvar</S.SaveButton>

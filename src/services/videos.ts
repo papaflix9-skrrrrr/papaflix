@@ -5,7 +5,9 @@ import {
   doc,
   getDoc,
   getDocs,
+  increment,
   serverTimestamp,
+  updateDoc,
 } from "firebase/firestore";
 
 import { db } from "./firebase";
@@ -76,4 +78,12 @@ export async function deleteVideo(videoId: string) {
   const ref = doc(db, "videos", videoId);
 
   return deleteDoc(ref);
+}
+
+export async function incrementVideoViews(videoId: string) {
+  const ref = doc(db, "videos", videoId);
+
+  return updateDoc(ref, {
+    views: increment(1),
+  });
 }
