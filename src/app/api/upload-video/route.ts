@@ -8,11 +8,19 @@ export async function POST(request: Request) {
     const title = formData.get("title") as string | null;
 
     if (!file) {
-      return NextResponse.json({ error: "Vídeo não enviado." }, { status: 400 });
+      return NextResponse.json(
+        { error: "Vídeo não enviado." },
+        { status: 400 }
+      );
     }
 
     const libraryId = process.env.BUNNY_STREAM_LIBRARY_ID;
     const accessKey = process.env.BUNNY_STREAM_ACCESS_KEY;
+
+    console.log({
+      libraryId,
+      hasAccessKey: !!accessKey,
+    });
 
     if (!libraryId || !accessKey) {
       return NextResponse.json(
@@ -48,7 +56,7 @@ export async function POST(request: Request) {
     const createdVideo = await createResponse.json();
     const videoId = createdVideo.guid;
 
-   const bytes = Buffer.from(await file.arrayBuffer());
+    const bytes = Buffer.from(await file.arrayBuffer());
 
     const uploadResponse = await fetch(
       `https://video.bunnycdn.com/library/${libraryId}/videos/${videoId}`,
