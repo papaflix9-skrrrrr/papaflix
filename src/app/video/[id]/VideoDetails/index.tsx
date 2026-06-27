@@ -63,14 +63,11 @@ async function handleDelete() {
       <S.ContentLayout>
         <S.MainColumn>
           <S.PlayerArea>
-         <S.Video
-  controls
-  controlsList="nodownload"
-   onContextMenu={(event) => event.preventDefault()}
-  poster={video.thumbnail || undefined}
->
-  <source src={video.videoUrl} />
-</S.Video>
+    <S.Iframe
+  src={video.videoUrl}
+  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+  allowFullScreen
+/>
           </S.PlayerArea>
 
           <S.InfoArea>

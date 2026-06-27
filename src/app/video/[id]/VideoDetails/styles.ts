@@ -222,3 +222,11 @@ export const DeleteButton = styled.button`
 
   cursor: pointer;
 `;
+
+export const Iframe = styled.iframe`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: none;
+  border-radius: 14px;
+  background: #000;
+`;

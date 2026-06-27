@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { createVideo } from "@/services/videos";
-import { uploadToCloudinary } from "@/services/cloudinary";
+import { uploadImageToBunny, uploadVideoToBunny } from "@/services/bunny";
+
 import * as S from "./styles";
 
 export function CreateVideo() {
@@ -28,22 +29,24 @@ export function CreateVideo() {
     try {
       setIsPublishing(true);
 
-      const videoUrl = await uploadToCloudinary(videoFile, "video");
+    const videoUrl = await uploadVideoToBunny(videoFile, title);
 
-      const thumbnailUrl = thumbnailFile
-        ? await uploadToCloudinary(thumbnailFile, "image")
-        : "";
+let thumbnailUrl = "";
 
-      await createVideo({
-        title,
-        description,
-        videoUrl,
-        thumbnail: thumbnailUrl,
-        tags: tags
-          .split(",")
-          .map((tag) => tag.trim())
-          .filter(Boolean),
-      });
+if (thumbnailFile) {
+  thumbnailUrl = await uploadImageToBunny(thumbnailFile);
+}
+
+await createVideo({
+  title,
+  description,
+  videoUrl,
+  thumbnail: thumbnailUrl || "",
+  tags: tags
+    .split(",")
+    .map((tag) => tag.trim())
+    .filter(Boolean),
+});
 
       alert("Vídeo publicado com sucesso!");
       router.push("/");
@@ -54,6 +57,8 @@ export function CreateVideo() {
       setIsPublishing(false);
     }
   }
+
+  
 
   return (
     <S.Container>

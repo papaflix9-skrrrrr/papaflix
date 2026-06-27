@@ -13,7 +13,11 @@ export function VideoCard({ video }: Props) {
       <Link href={`/video/${video.id}`}>
     <S.Container>
       <S.ThumbnailWrapper>
-        <S.Thumbnail src={video.thumbnail} alt={video.title} />
+       {video.thumbnail ? (
+  <S.Thumbnail src={video.thumbnail} alt={video.title} />
+) : (
+  <S.ThumbnailPlaceholder>▶</S.ThumbnailPlaceholder>
+)}
         <S.Duration>{video.duration}</S.Duration>
       </S.ThumbnailWrapper>
 

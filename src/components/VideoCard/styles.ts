@@ -69,3 +69,21 @@ export const Tag = styled.span`
   font-size: 11px;
   font-weight: 600;
 `;
+
+export const ThumbnailPlaceholder = styled.div`
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #201034;
+
+  color: #f5f3ff;
+
+  font-size: 38px;
+  font-weight: 900;
+`;
