@@ -16,46 +16,66 @@ export function ProfileScreen() {
 
   const [savedVideos, setSavedVideos] = useState(videos.slice(0, 0));
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
- async function handleLogout() {
-  try {
-    await logout();
-
-    router.replace("/login");
-  } catch (error) {
-    console.log(error);
-    alert("Erro ao sair da conta.");
+  async function handleLogout() {
+    try {
+      await logout();
+      router.replace("/login");
+    } catch (error) {
+      console.log(error);
+      alert("Erro ao sair da conta.");
+    }
   }
-}
 
   useEffect(() => {
-    const savedIds = getSavedVideos();
-
-    const filteredVideos = videos.filter((video) =>
-      savedIds.includes(video.id)
-    );
-
-    setSavedVideos(filteredVideos);
-
     const unsubscribe = listenAuthState((user) => {
+      if (!user) {
+        router.replace("/login");
+        return;
+      }
+
+      const savedIds = getSavedVideos();
+
+      const filteredVideos = videos.filter((video) =>
+        savedIds.includes(video.id)
+      );
+
+      setSavedVideos(filteredVideos);
+
       const admin =
-        user?.email?.toLowerCase().trim() ===
+        user.email?.toLowerCase().trim() ===
         ADMIN_EMAIL.toLowerCase().trim();
 
       setIsAdmin(admin);
+      setIsCheckingAuth(false);
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [router]);
+
+  if (isCheckingAuth) {
+    return (
+      <S.Container>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "40px 20px",
+            color: "#a1a1aa",
+          }}
+        >
+          Verificando login...
+        </div>
+      </S.Container>
+    );
+  }
 
   return (
     <S.Container>
       <S.Header>
         <S.Title>Meu perfil</S.Title>
 
-        <S.Description>
-          Seus vídeos salvos aparecerão aqui.
-        </S.Description>
+        <S.Description>Seus vídeos salvos aparecerão aqui.</S.Description>
 
         {isAdmin && (
           <S.AdminActions>
@@ -69,9 +89,7 @@ export function ProfileScreen() {
           </S.AdminActions>
         )}
 
-        <S.LogoutButton onClick={handleLogout}>
-          Sair
-        </S.LogoutButton>
+        <S.LogoutButton onClick={handleLogout}>Sair</S.LogoutButton>
       </S.Header>
 
       {savedVideos.length > 0 ? (

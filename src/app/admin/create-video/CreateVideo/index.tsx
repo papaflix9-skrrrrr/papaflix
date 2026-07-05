@@ -19,6 +19,7 @@ export function CreateVideo() {
   const [thumbnailFile, setThumbnailFile] = useState<File | null>(null);
 
   const [isPublishing, setIsPublishing] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
   async function handlePublish() {
     if (!title || !description || !videoFile) {
@@ -26,10 +27,15 @@ export function CreateVideo() {
       return;
     }
 
-    try {
-      setIsPublishing(true);
+   try {
+  setIsPublishing(true);
+  setUploadProgress(0);
 
-    const videoUrl = await uploadVideoToBunny(videoFile, title);
+  const videoUrl = await uploadVideoToBunny(
+    videoFile,
+    title,
+    setUploadProgress
+  );
 
 let thumbnailUrl = "";
 
@@ -113,6 +119,12 @@ await createVideo({
               }
             />
           </S.Label>
+
+{isPublishing && uploadProgress > 0 && (
+  <p style={{ color: "#a1a1aa", fontSize: 13 }}>
+    Enviando vídeo: {uploadProgress.toFixed(0)}%
+  </p>
+)}
 
           <S.PublishButton
             type="button"
