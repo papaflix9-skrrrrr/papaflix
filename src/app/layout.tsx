@@ -19,8 +19,44 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Papaflix",
-  description: "Plataforma de vídeos",
+  metadataBase: new URL("https://papaflix.com"),
+
+  title: {
+    default: "Papaflix",
+    template: "%s | Papaflix",
+  },
+
+  description:
+    "Papaflix é uma plataforma de streaming de vídeos para maiores de 18 anos.",
+
+  keywords: [
+    "vídeos",
+    "streaming",
+    "papaflix",
+    "adulto",
+    "plataforma",
+  ],
+
+  robots: {
+    index: true,
+    follow: true,
+  },
+
+  openGraph: {
+    title: "Papaflix",
+    description:
+      "Plataforma de streaming de vídeos para maiores de 18 anos.",
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Papaflix",
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: "Papaflix",
+    description:
+      "Plataforma de streaming de vídeos para maiores de 18 anos.",
+  },
 };
 
 export default function RootLayout({

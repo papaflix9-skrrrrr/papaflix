@@ -12,6 +12,7 @@ import { ContinueWatching } from "@/components/ContinueWatching";
 import { TrendingVideos } from "@/components/TrendingVideos";
 import { FavoriteVideos } from "@/components/FavoriteVideos";
 import { NewVideos } from "@/components/NewVideos";
+import { HorizontalBanner } from "@/components/Ads/HorizontalBanner";
 
 export default function HomeContent() {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -100,6 +101,7 @@ const filteredVideos = videos.filter((video) => {
 
         <TrendingVideos videos={videos} />
         <NewVideos videos={videos} />
+        <HorizontalBanner />
 <FavoriteVideos videos={videos} />
 
       <TagList

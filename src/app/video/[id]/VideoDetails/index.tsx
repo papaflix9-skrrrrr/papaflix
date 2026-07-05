@@ -10,6 +10,9 @@ import { ADMIN_EMAIL } from "@/config/admin";
 import { listenAuthState } from "@/services/auth";
 import { deleteVideo } from "@/services/videos";
 import { incrementVideoViews } from "@/services/videos";
+import { HorizontalBanner } from "@/components/Ads/HorizontalBanner";
+import { VideoPreroll } from "@/components/Ads/VideoPreroll";
+
 
 import {
   getProgress,
@@ -24,16 +27,27 @@ type Props = {
 };
 
 export function VideoDetails({ video, videos }: Props) {
-  function handleSave() {
+  async function handleSave() {
+  const unsubscribe = listenAuthState((user) => {
+    unsubscribe();
+
+    if (!user) {
+      alert("Entre na sua conta para salvar vídeos.");
+      router.push("/login");
+      return;
+    }
+
     saveVideo(video.id);
     alert("Vídeo salvo!");
-  }
+  });
+}
 
   const router = useRouter();
 const [isAdmin, setIsAdmin] = useState(false);
 const [views, setViews] = useState(video.views ?? 0);
 const [hasStarted, setHasStarted] = useState(false);
 const iframeRef = useRef<HTMLIFrameElement | null>(null);
+const [isPrerollFinished, setIsPrerollFinished] = useState(false);
 
 useEffect(() => {
   const unsubscribe = listenAuthState((user) => {
@@ -123,7 +137,7 @@ async function handleShare() {
 
       <S.ContentLayout>
         <S.MainColumn>
-        <S.PlayerArea>
+       <S.PlayerArea>
   {!hasStarted ? (
     <S.PlayerPreview onClick={() => setHasStarted(true)}>
       {video.thumbnail ? (
@@ -137,10 +151,12 @@ async function handleShare() {
         <S.PlayText>Clique para assistir</S.PlayText>
       </S.PreviewOverlay>
     </S.PlayerPreview>
+  ) : !isPrerollFinished ? (
+    <VideoPreroll onFinish={() => setIsPrerollFinished(true)} />
   ) : (
     <S.Iframe
       ref={iframeRef}
-      src={`${video.videoUrl}?autoplay=true`}
+      src={`${video.videoUrl}?autoplay=true&t=${Date.now()}`}
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
       allowFullScreen
     />
@@ -152,6 +168,8 @@ async function handleShare() {
             <S.Views>
           {views.toLocaleString("pt-BR")} visualizações
             </S.Views>
+
+            <HorizontalBanner />
 
            <S.ActionsRow>
   <S.SaveButton onClick={handleSave}>❤️ Salvar</S.SaveButton>

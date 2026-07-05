@@ -14,9 +14,15 @@ export function LoginScreen() {
   const [mode, setMode] = useState<"login" | "register">("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   async function handleSubmit() {
     try {
+      if (mode === "register" && password !== confirmPassword) {
+        alert("As senhas não coincidem.");
+        return;
+      }
+
       const response =
         mode === "login"
           ? await loginWithEmail(email, password)
@@ -70,6 +76,15 @@ export function LoginScreen() {
             onChange={(event) => setPassword(event.target.value)}
           />
 
+          {mode === "register" && (
+            <S.Input
+              type="password"
+              placeholder="Confirmar senha"
+              value={confirmPassword}
+              onChange={(event) => setConfirmPassword(event.target.value)}
+            />
+          )}
+
           <S.Button type="button" onClick={handleSubmit}>
             {mode === "login" ? "Entrar" : "Criar conta"}
           </S.Button>
@@ -79,11 +94,12 @@ export function LoginScreen() {
           {mode === "login" ? "Ainda não tem conta?" : "Já tem uma conta?"}
           <S.SwitchButton
             type="button"
-            onClick={() =>
+            onClick={() => {
               setMode((current) =>
                 current === "login" ? "register" : "login"
-              )
-            }
+              );
+              setConfirmPassword("");
+            }}
           >
             {mode === "login" ? "Criar conta" : "Entrar"}
           </S.SwitchButton>
