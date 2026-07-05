@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import "./globals.css";
 import StyledComponentsRegistry from "@/lib/registry";
 import { Footer } from "@/components/Footer";
+import { AgeGate } from "@/components/AgeGate";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col">
        <StyledComponentsRegistry>
+          <AgeGate />
   <Header />
   {children}
   <Footer/>

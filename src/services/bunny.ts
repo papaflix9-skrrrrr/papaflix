@@ -1,3 +1,13 @@
+import * as tus from "tus-js-client";
+
+type BunnyTusResponse = {
+  videoId: string;
+  libraryId: string;
+  expirationTime: number;
+  signature: string;
+  videoUrl: string;
+};
+
 export async function uploadImageToBunny(file: File) {
   const formData = new FormData();
 
@@ -18,23 +28,63 @@ export async function uploadImageToBunny(file: File) {
   return data.url as string;
 }
 
-export async function uploadVideoToBunny(file: File, title: string) {
-  const formData = new FormData();
-
-  formData.append("file", file);
-  formData.append("title", title);
-
+export async function uploadVideoToBunny(
+  file: File,
+  title: string,
+  onProgress?: (percentage: number) => void
+) {
   const response = await fetch("/api/upload-video", {
     method: "POST",
-    body: formData,
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ title }),
   });
 
-  const data = await response.json();
+  const data = (await response.json()) as BunnyTusResponse & {
+    error?: string;
+  };
 
   if (!response.ok) {
-    console.error("Erro upload Bunny vídeo:", data);
-    throw new Error(data.error || "Erro ao enviar vídeo.");
+    console.error("Erro credenciais Bunny vídeo:", data);
+    throw new Error(data.error || "Erro ao preparar upload do vídeo.");
   }
 
-  return data.videoUrl as string;
+  await new Promise<void>((resolve, reject) => {
+    const upload = new tus.Upload(file, {
+      endpoint: "https://video.bunnycdn.com/tusupload",
+      retryDelays: [0, 3000, 5000, 10000, 20000, 60000],
+      headers: {
+        AuthorizationSignature: data.signature,
+        AuthorizationExpire: String(data.expirationTime),
+        VideoId: data.videoId,
+        LibraryId: String(data.libraryId),
+      },
+      metadata: {
+        filetype: file.type || "video/mp4",
+        title: title || file.name,
+      },
+      onError(error) {
+        console.error("Erro TUS Bunny:", error);
+        reject(error);
+      },
+      onProgress(bytesUploaded, bytesTotal) {
+        const percentage = (bytesUploaded / bytesTotal) * 100;
+        onProgress?.(percentage);
+      },
+      onSuccess() {
+        resolve();
+      },
+    });
+
+    upload.findPreviousUploads().then((previousUploads) => {
+      if (previousUploads.length) {
+        upload.resumeFromPreviousUpload(previousUploads[0]);
+      }
+
+      upload.start();
+    });
+  });
+
+  return data.videoUrl;
 }
