@@ -15,6 +15,7 @@ export const ThumbnailWrapper = styled.div`
   border-radius: 14px;
 
   background: #201034;
+  
 `;
 
 export const Thumbnail = styled.img`
@@ -87,3 +88,24 @@ export const ThumbnailPlaceholder = styled.div`
   font-size: 38px;
   font-weight: 900;
 `;
+
+
+
+export const ProgressBar = styled.div`
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 4px;
+
+  background: rgba(255, 255, 255, 0.2);
+`;
+
+export const Progress = styled.div<{ $progress: number }>`
+  width: ${({ $progress }) => `${$progress}%`};
+  height: 100%;
+
+  background: #8b5cf6;
+`;
+

@@ -8,6 +8,10 @@ import { getVideos } from "@/services/videos";
 import { Video } from "@/types/video";
 import { AdCarousel } from "@/components/AdCarousel";
 import { useSearchParams } from "next/navigation";
+import { ContinueWatching } from "@/components/ContinueWatching";
+import { TrendingVideos } from "@/components/TrendingVideos";
+import { FavoriteVideos } from "@/components/FavoriteVideos";
+import { NewVideos } from "@/components/NewVideos";
 
 export default function HomeContent() {
   const [videos, setVideos] = useState<Video[]>([]);
@@ -73,23 +77,30 @@ const filteredVideos = videos.filter((video) => {
     );
   }
 
-  if (isLoading) {
-    return (
-      <main
-        style={{
-          padding: 40,
-          textAlign: "center",
-          color: "#a1a1aa",
-        }}
-      >
-        Carregando vídeos...
-      </main>
-    );
-  }
+ if (isLoading) {
+  return (
+    <main>
+      <AdCarousel />
+
+      
+
+      <VideoGrid
+        videos={[]}
+        isLoading
+      />
+    </main>
+  );
+}
 
   return (
     <main>
         <AdCarousel />
+
+        <ContinueWatching videos={videos} />
+
+        <TrendingVideos videos={videos} />
+        <NewVideos videos={videos} />
+<FavoriteVideos videos={videos} />
 
       <TagList
         tags={tags}

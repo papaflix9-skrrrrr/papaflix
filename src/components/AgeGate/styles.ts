@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 
 export const Overlay = styled.div`
   position: fixed;
@@ -135,13 +136,19 @@ export const Links = styled.div`
   gap: 14px;
 `;
 
-export const LinkItem = styled.span`
+export const LinkItem = styled(Link)`
   color: #a78bfa;
 
   font-size: 13px;
   font-weight: 700;
 
+  text-decoration: none;
+
   cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const FooterText = styled.p`

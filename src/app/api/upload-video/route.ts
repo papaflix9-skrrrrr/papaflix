@@ -7,8 +7,9 @@ export async function POST(request: Request) {
 
     const libraryId = process.env.BUNNY_STREAM_LIBRARY_ID;
     const accessKey = process.env.BUNNY_STREAM_ACCESS_KEY;
+    const streamPublicUrl = process.env.BUNNY_STREAM_PUBLIC_URL;
 
-    if (!libraryId || !accessKey) {
+    if (!libraryId || !accessKey || !streamPublicUrl) {
       return NextResponse.json(
         { error: "Configuração Bunny Stream ausente." },
         { status: 500 }
@@ -49,6 +50,7 @@ export async function POST(request: Request) {
       .digest("hex");
 
     const videoUrl = `https://iframe.mediadelivery.net/embed/${libraryId}/${videoId}`;
+    const thumbnailUrl = `${streamPublicUrl}/${videoId}/thumbnail.jpg`;
 
     return NextResponse.json({
       videoId,
@@ -56,6 +58,7 @@ export async function POST(request: Request) {
       expirationTime,
       signature,
       videoUrl,
+      thumbnailUrl,
     });
   } catch (error) {
     console.error("Erro interno Bunny TUS:", error);

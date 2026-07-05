@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import * as S from "./styles";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 const AGE_GATE_KEY = "@papaflix:age-accepted";
 const THIRTY_DAYS = 1000 * 60 * 60 * 24 * 30;
@@ -80,12 +81,12 @@ export function AgeGate() {
           </S.ExitButton>
         </S.Actions>
 
-        <S.Links>
-          <S.LinkItem>Termos</S.LinkItem>
-          <S.LinkItem>Privacidade</S.LinkItem>
-          <S.LinkItem>DMCA</S.LinkItem>
-          <S.LinkItem>Contato</S.LinkItem>
-        </S.Links>
+      <S.Links>
+  <S.LinkItem href="/terms">Termos</S.LinkItem>
+  <S.LinkItem href="/privacy">Privacidade</S.LinkItem>
+  <S.LinkItem href="/dmca">DMCA</S.LinkItem>
+  <S.LinkItem href="/contact">Contato</S.LinkItem>
+</S.Links>
 
         <S.FooterText>
           O acesso é permitido apenas para usuários maiores de idade.

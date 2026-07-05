@@ -6,6 +6,12 @@ type BunnyTusResponse = {
   expirationTime: number;
   signature: string;
   videoUrl: string;
+  thumbnailUrl: string;
+};
+
+type UploadVideoResult = {
+  videoUrl: string;
+  thumbnailUrl: string;
 };
 
 export async function uploadImageToBunny(file: File) {
@@ -32,7 +38,7 @@ export async function uploadVideoToBunny(
   file: File,
   title: string,
   onProgress?: (percentage: number) => void
-) {
+): Promise<UploadVideoResult> {
   const response = await fetch("/api/upload-video", {
     method: "POST",
     headers: {
@@ -86,5 +92,8 @@ export async function uploadVideoToBunny(
     });
   });
 
-  return data.videoUrl;
+  return {
+    videoUrl: data.videoUrl,
+    thumbnailUrl: data.thumbnailUrl,
+  };
 }

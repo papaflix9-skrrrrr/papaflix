@@ -123,3 +123,69 @@ export const BackButton = styled(Link)`
 
   text-decoration: none;
 `;
+
+export const UploadCard = styled.div`
+  margin-top: 12px;
+
+  padding: 18px;
+
+  background: #160b26;
+
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+`;
+
+export const UploadTitle = styled.h3`
+  color: #f5f3ff;
+
+  font-size: 15px;
+  font-weight: 800;
+`;
+
+export const UploadText = styled.p`
+  margin-top: 6px;
+
+  color: #a1a1aa;
+
+  font-size: 14px;
+`;
+
+export const ProgressBar = styled.div`
+  width: 100%;
+  height: 10px;
+
+  margin-top: 18px;
+
+  overflow: hidden;
+
+  border-radius: 999px;
+
+  background: rgba(255, 255, 255, 0.08);
+`;
+
+export const Progress = styled.div<{ $progress: number }>`
+  width: ${({ $progress }) => `${$progress}%`};
+  height: 100%;
+
+  border-radius: inherit;
+
+  background: linear-gradient(
+    90deg,
+    #8b5cf6,
+    #a855f7,
+    #c084fc
+  );
+
+  transition: width .25s ease;
+`;
+
+export const ProgressValue = styled.p`
+  margin-top: 10px;
+
+  text-align: right;
+
+  color: #d4d4d8;
+
+  font-size: 13px;
+  font-weight: 700;
+`;

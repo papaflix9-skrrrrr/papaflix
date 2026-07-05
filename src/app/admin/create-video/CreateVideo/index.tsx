@@ -27,51 +27,47 @@ export function CreateVideo() {
       return;
     }
 
-   try {
-  setIsPublishing(true);
-  setUploadProgress(0);
+    try {
+      setIsPublishing(true);
+      setUploadProgress(0);
 
-  const videoUrl = await uploadVideoToBunny(
-    videoFile,
-    title,
-    setUploadProgress
-  );
+      const uploadedVideo = await uploadVideoToBunny(
+        videoFile,
+        title,
+        setUploadProgress
+      );
 
-let thumbnailUrl = "";
+      let thumbnailUrl = "";
 
-if (thumbnailFile) {
-  thumbnailUrl = await uploadImageToBunny(thumbnailFile);
-}
+      if (thumbnailFile) {
+        thumbnailUrl = await uploadImageToBunny(thumbnailFile);
+      }
 
-await createVideo({
-  title,
-  description,
-  videoUrl,
-  thumbnail: thumbnailUrl || "",
-  tags: tags
-    .split(",")
-    .map((tag) => tag.trim())
-    .filter(Boolean),
-});
+      await createVideo({
+        title,
+        description,
+        videoUrl: uploadedVideo.videoUrl,
+        thumbnail: thumbnailUrl || uploadedVideo.thumbnailUrl || "",
+        tags: tags
+          .split(",")
+          .map((tag) => tag.trim())
+          .filter(Boolean),
+      });
 
       alert("Vídeo publicado com sucesso!");
       router.push("/");
     } catch (error) {
-  console.error("Erro ao publicar vídeo:", error);
-  alert("Erro ao publicar vídeo. Veja o Console.");
-} finally {
+      console.error("Erro ao publicar vídeo:", error);
+      alert("Erro ao publicar vídeo. Veja o Console.");
+    } finally {
       setIsPublishing(false);
     }
   }
 
-  
-
   return (
     <S.Container>
       <S.Content>
-        <S.BackButton href="/profile">
-  ← Voltar ao perfil
-</S.BackButton>
+        <S.BackButton href="/profile">← Voltar ao perfil</S.BackButton>
 
         <S.Title>Novo Vídeo</S.Title>
 
@@ -120,11 +116,27 @@ await createVideo({
             />
           </S.Label>
 
-{isPublishing && uploadProgress > 0 && (
-  <p style={{ color: "#a1a1aa", fontSize: 13 }}>
-    Enviando vídeo: {uploadProgress.toFixed(0)}%
-  </p>
-)}
+          {isPublishing && (
+            <S.UploadCard>
+              <S.UploadTitle>
+                {uploadProgress < 100
+                  ? "Enviando vídeo..."
+                  : "Finalizando publicação..."}
+              </S.UploadTitle>
+
+              <S.UploadText>
+                {uploadProgress < 100
+                  ? "Seu vídeo está sendo enviado para o Bunny Stream."
+                  : "Aguarde enquanto concluímos a publicação."}
+              </S.UploadText>
+
+              <S.ProgressBar>
+                <S.Progress $progress={uploadProgress} />
+              </S.ProgressBar>
+
+              <S.ProgressValue>{uploadProgress.toFixed(0)}%</S.ProgressValue>
+            </S.UploadCard>
+          )}
 
           <S.PublishButton
             type="button"

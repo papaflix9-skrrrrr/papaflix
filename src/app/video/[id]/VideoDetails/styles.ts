@@ -169,7 +169,7 @@ export const BackButton = styled(Link)`
 `;
 
 export const SaveButton = styled.button`
-  margin-top: 16px;
+  
 
   height: 42px;
 
@@ -229,4 +229,105 @@ export const Iframe = styled.iframe`
   border: none;
   border-radius: 14px;
   background: #000;
+`;
+
+export const PlayerPreview = styled.button`
+  position: relative;
+
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  padding: 0;
+
+  overflow: hidden;
+
+  border: none;
+  border-radius: 14px;
+
+  background: #000;
+
+  cursor: pointer;
+`;
+
+export const PreviewImage = styled.img`
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  display: block;
+`;
+
+export const PreviewFallback = styled.div`
+  width: 100%;
+  height: 100%;
+
+  background:
+    radial-gradient(circle at center, rgba(139, 92, 246, 0.25), transparent 35%),
+    #050208;
+`;
+
+export const PreviewOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+`;
+
+export const PlayButton = styled.div`
+  width: 74px;
+  height: 74px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: rgba(139, 92, 246, 0.92);
+  color: white;
+
+  font-size: 30px;
+  font-weight: 900;
+
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.45);
+`;
+
+export const PlayText = styled.span`
+  margin-top: 12px;
+
+  color: #f5f3ff;
+
+  font-size: 14px;
+  font-weight: 800;
+`;
+
+export const ActionsRow = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  margin-top: 16px;
+`;
+
+export const ShareButton = styled.button`
+  height: 42px;
+
+  padding: 0 18px;
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+
+  background: #201034;
+  color: white;
+
+  font-weight: 700;
+
+  cursor: pointer;
 `;

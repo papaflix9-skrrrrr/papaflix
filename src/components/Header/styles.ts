@@ -108,3 +108,101 @@ export const ProfileButton = styled(Link)`
     font-size: 18px;
   }
 `;
+
+export const SearchArea = styled.div`
+  position: relative;
+`;
+
+export const Suggestions = styled.div`
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+
+  width: 320px;
+  max-width: 86vw;
+
+  z-index: 50;
+
+  padding: 8px;
+
+  border-radius: 16px;
+
+  background: #160b26;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+`;
+
+export const SuggestionItem = styled.button`
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 8px;
+
+  border: none;
+  border-radius: 12px;
+
+  background: transparent;
+
+  text-align: left;
+
+  cursor: pointer;
+
+  &:hover {
+    background: #201034;
+  }
+`;
+
+export const SuggestionThumb = styled.img`
+  width: 74px;
+  aspect-ratio: 16 / 9;
+
+  object-fit: cover;
+
+  border-radius: 8px;
+
+  background: #201034;
+`;
+
+export const SuggestionThumbFallback = styled.div`
+  width: 74px;
+  aspect-ratio: 16 / 9;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 8px;
+
+  background: #201034;
+  color: #f5f3ff;
+
+  font-size: 18px;
+  font-weight: 900;
+`;
+
+export const SuggestionInfo = styled.div`
+  min-width: 0;
+`;
+
+export const SuggestionTitle = styled.p`
+  color: #f5f3ff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
+
+export const SuggestionMeta = styled.p`
+  margin-top: 4px;
+
+  color: #a1a1aa;
+
+  font-size: 11px;
+`;
