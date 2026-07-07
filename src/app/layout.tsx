@@ -25,6 +25,10 @@ export const metadata: Metadata = {
     default: "Papaflix",
     template: "%s | Papaflix",
   },
+    other: {
+    "6a97888e-site-verification":
+      "cf1ac845b428b9746213ecc60d4d7347",
+  },
 
   description:
     "Papaflix é uma plataforma de streaming de vídeos para maiores de 18 anos.",
