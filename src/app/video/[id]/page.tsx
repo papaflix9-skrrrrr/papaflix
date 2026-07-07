@@ -31,33 +31,34 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const image = video.thumbnail || `${SITE_URL}/og-image.png`;
 
   return {
+  metadataBase: new URL(SITE_URL),
+  title,
+  description,
+  alternates: {
+    canonical: url,
+  },
+  openGraph: {
     title,
     description,
-    alternates: {
-      canonical: url,
-    },
-    openGraph: {
-      title,
-      description,
-      url,
-      siteName: "Papaflix",
-      type: "video.other",
-      images: [
-        {
-          url: image,
-          width: 1280,
-          height: 720,
-          alt: video.title,
-        },
-      ],
-    },
-    twitter: {
-      card: "summary_large_image",
-      title,
-      description,
-      images: [image],
-    },
-  };
+    url,
+    siteName: "Papaflix",
+    type: "video.other",
+    images: [
+      {
+        url: image,
+        width: 1280,
+        height: 720,
+        alt: video.title,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: [image],
+  },
+};
 }
 
 export default async function VideoPage({ params }: Props) {
