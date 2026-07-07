@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { FiUser } from "react-icons/fi";
 
 import { getVideos } from "@/services/videos";
+import { trackEvent } from "@/utils/analytics";
 import { Video } from "@/types/video";
 
 import * as S from "./styles";
@@ -51,6 +52,10 @@ export function Header() {
 
   function handleSearch() {
     const term = search.trim();
+
+    trackEvent("search", {
+  search_term: term,
+});
 
     if (!term) {
       router.push("/");

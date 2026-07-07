@@ -70,3 +70,25 @@ export const Progress = styled.div<{ $progress: number }>`
 
   transition: width 0.3s ease;
 `;
+
+export const SkipButton = styled.button`
+  height: 42px;
+
+  margin-top: 18px;
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 999px;
+
+  background: #8b5cf6;
+  color: white;
+
+  font-weight: 900;
+
+  cursor: pointer;
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+  }
+`;

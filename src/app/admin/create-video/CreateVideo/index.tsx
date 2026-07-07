@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 
 import { createVideo } from "@/services/videos";
 import { uploadImageToBunny, uploadVideoToBunny } from "@/services/bunny";
+import { trackEvent } from "@/utils/analytics";
 
 import * as S from "./styles";
 
@@ -53,6 +54,11 @@ export function CreateVideo() {
           .map((tag) => tag.trim())
           .filter(Boolean),
       });
+
+
+     trackEvent("upload_video", {
+  video_title: title,
+});
 
       alert("Vídeo publicado com sucesso!");
       router.push("/");
