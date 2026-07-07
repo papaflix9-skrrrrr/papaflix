@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 
 import { getVideos, deleteVideo } from "@/services/videos";
 import { Video } from "@/types/video";
-
+import Link from "next/link";
 import * as S from "./styles";
 
 export function ManageVideos() {
@@ -84,16 +84,18 @@ export function ManageVideos() {
                   {(video.views ?? 0).toLocaleString("pt-BR")} visualizações
                 </S.Views>
               </S.Info>
+<S.Actions>
+  <S.EditButton href={`/admin/videos/${video.id}/edit`}>
+    Editar
+  </S.EditButton>
 
-              <S.Actions>
-               
-                <S.DeleteButton
-                  type="button"
-                  onClick={() => handleDelete(video.id)}
-                >
-                  Excluir
-                </S.DeleteButton>
-              </S.Actions>
+  <S.DeleteButton
+    type="button"
+    onClick={() => handleDelete(video.id)}
+  >
+    Excluir
+  </S.DeleteButton>
+</S.Actions>
             </S.Card>
           ))}
         </S.List>

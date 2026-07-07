@@ -204,11 +204,23 @@ export function VideoDetails({ video, videos }: Props) {
               </S.ShareButton>
             </S.ActionsRow>
 
-            {isAdmin && (
-              <S.DeleteButton onClick={handleDelete}>
-                Excluir vídeo
-              </S.DeleteButton>
-            )}
+          {isAdmin && (
+    <S.AdminActions>
+
+        <S.EditButton
+            href={`/admin/videos/${video.id}/edit`}
+        >
+            Editar
+        </S.EditButton>
+
+        <S.DeleteButton
+            onClick={handleDelete}
+        >
+            Excluir
+        </S.DeleteButton>
+
+    </S.AdminActions>
+)}
 
             <S.TagsContainer>
               {(video.tags ?? []).map((tag) => (

@@ -6,6 +6,40 @@ export const Container = styled.article`
   width: 100%;
 `;
 
+export const HoverOverlay = styled.div`
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.35);
+
+  opacity: 0;
+  transition: 0.25s ease;
+`;
+
+export const PlayIcon = styled.div`
+  width: 54px;
+  height: 54px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: rgba(139, 92, 246, 0.95);
+  color: white;
+
+  font-size: 22px;
+  font-weight: 900;
+
+  transform: scale(0.9);
+  transition: 0.25s ease;
+`;
+
 export const ThumbnailWrapper = styled.div`
   position: relative;
   width: 100%;
@@ -15,7 +49,21 @@ export const ThumbnailWrapper = styled.div`
   border-radius: 14px;
 
   background: #201034;
-  
+
+  transition: 0.25s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+  }
+
+  &:hover ${HoverOverlay} {
+    opacity: 1;
+  }
+
+  &:hover ${PlayIcon} {
+    transform: scale(1);
+  }
 `;
 
 export const Thumbnail = styled.img`
@@ -109,3 +157,9 @@ export const Progress = styled.div<{ $progress: number }>`
   background: #8b5cf6;
 `;
 
+export const PreviewIframe = styled.iframe`
+  width: 100%;
+  height: 100%;
+
+  border: none;
+`;

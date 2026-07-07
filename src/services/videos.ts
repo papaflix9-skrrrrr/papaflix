@@ -20,6 +20,15 @@ type CreateVideoData = {
   tags: string[];
 };
 
+type UpdateVideoData = {
+  title: string;
+  description: string;
+  thumbnail: string;
+  videoUrl: string;
+  tags: string[];
+  published: boolean;
+};
+
 export async function getVideos() {
   const snapshot = await getDocs(collection(db, "videos"));
 
@@ -85,5 +94,19 @@ export async function incrementVideoViews(videoId: string) {
 
   return updateDoc(ref, {
     views: increment(1),
+  });
+}
+
+export async function updateVideo(videoId: string, data: UpdateVideoData) {
+  const ref = doc(db, "videos", videoId);
+
+  return updateDoc(ref, {
+    title: data.title,
+    description: data.description,
+    thumbnail: data.thumbnail,
+    videoUrl: data.videoUrl,
+    tags: data.tags,
+    published: data.published,
+    updatedAt: serverTimestamp(),
   });
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 
 import { Video } from "@/types/video";
@@ -12,9 +12,11 @@ type Props = {
   video: Video;
 };
 
+
+
 export function VideoCard({ video }: Props) {
   const progress = useMemo(() => getProgress(video.id), [video.id]);
-
+const [isHovered, setIsHovered] = useState(false);
   const progressPercentage =
     progress?.duration > 0
       ? Math.min((progress.currentTime / progress.duration) * 100, 100)
@@ -23,24 +25,34 @@ export function VideoCard({ video }: Props) {
   return (
     <Link href={`/video/${video.id}`}>
       <S.Container>
-        <S.ThumbnailWrapper>
-          {video.thumbnail ? (
-            <S.Thumbnail src={video.thumbnail} alt={video.title} />
-          ) : (
-            <S.ThumbnailPlaceholder>▶</S.ThumbnailPlaceholder>
-          )}
+      <S.ThumbnailWrapper  onMouseEnter={() => setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}>
+  {isHovered ? (
+  <S.PreviewIframe
+    src={`${video.videoUrl}?autoplay=true&muted=true`}
+    allow="autoplay"
+  />
+) : video.thumbnail ? (
+  <S.Thumbnail
+    src={video.thumbnail}
+    alt={video.title}
+  />
+) : (
+  <S.ThumbnailPlaceholder>▶</S.ThumbnailPlaceholder>
+)}
 
-          {video.duration && (
-            <S.Duration>{video.duration}</S.Duration>
-          )}
+  <S.HoverOverlay>
+    <S.PlayIcon>▶</S.PlayIcon>
+  </S.HoverOverlay>
 
-          {progressPercentage > 3 && (
-            <S.ProgressBar>
-              <S.Progress $progress={progressPercentage} />
-            </S.ProgressBar>
-          )}
-        </S.ThumbnailWrapper>
+  {video.duration && <S.Duration>{video.duration}</S.Duration>}
 
+  {progressPercentage > 3 && (
+    <S.ProgressBar>
+      <S.Progress $progress={progressPercentage} />
+    </S.ProgressBar>
+  )}
+</S.ThumbnailWrapper>
         <S.Title>{video.title}</S.Title>
 
         <S.Meta>

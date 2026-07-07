@@ -18,12 +18,12 @@ export function AdminDashboard() {
   <S.ActionText>Enviar um novo vídeo para o site.</S.ActionText>
 </S.ActionCard>
 
-          <S.ActionCard href="/admin/create-video">
+          <S.ActionCard   href="/admin/videos">
             <S.ActionTitle>Editar vídeos</S.ActionTitle>
             <S.ActionText>Alterar título, tags, thumbnail e descrição.</S.ActionText>
           </S.ActionCard>
 
-          <S.ActionCard href="/admin/create-video">
+          <S.ActionCard  href="/admin/dashboard">
             <S.ActionTitle>Estatísticas</S.ActionTitle>
             <S.ActionText>Ver visualizações e desempenho dos vídeos.</S.ActionText>
           </S.ActionCard>

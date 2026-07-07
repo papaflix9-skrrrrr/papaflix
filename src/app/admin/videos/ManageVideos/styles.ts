@@ -95,21 +95,6 @@ export const Actions = styled.div`
   gap: 10px;
 `;
 
-export const EditButton = styled.button`
-  height: 42px;
-
-  padding: 0 18px;
-
-  border: none;
-  border-radius: 999px;
-
-  background: #8b5cf6;
-
-  color: white;
-
-  font-weight: 700;
-`;
-
 export const DeleteButton = styled.button`
   height: 42px;
 
@@ -158,4 +143,30 @@ export const BackButton = styled(Link)`
   font-weight: 800;
 
   text-decoration: none;
+`;
+
+export const EditButton = styled(Link)`
+  height: 40px;
+
+  padding: 0 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 999px;
+
+  background: #8b5cf6;
+
+  color: white;
+
+  text-decoration: none;
+
+  font-weight: 800;
+
+  transition: .2s;
+
+  &:hover{
+    opacity:.9;
+  }
 `;

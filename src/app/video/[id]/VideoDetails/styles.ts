@@ -331,3 +331,38 @@ export const ShareButton = styled.button`
 
   cursor: pointer;
 `;
+
+export const AdminActions = styled.div`
+  margin-top: 14px;
+
+  display: flex;
+  gap: 10px;
+`;
+
+
+
+export const EditButton = styled(Link)`
+  height: 42px;
+
+  padding: 0 18px;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:999px;
+
+  background:#8b5cf6;
+
+  color:white;
+
+  text-decoration:none;
+
+  font-weight:700;
+
+  transition:.2s;
+
+  &:hover{
+    opacity:.9;
+  }
+`;

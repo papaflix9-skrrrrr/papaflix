@@ -1,6 +1,7 @@
 "use client";
 
 import styled from "styled-components";
+import Link from "next/link";
 
 export const Container = styled.footer`
   width: 100%;
@@ -17,10 +18,12 @@ export const Container = styled.footer`
   gap: 12px;
 `;
 
-export const Logo = styled.h2`
+export const Logo = styled(Link)`
   font-size: 24px;
   font-weight: 900;
   letter-spacing: -1px;
+
+  text-decoration: none;
 `;
 
 export const Papa = styled.span`
@@ -44,7 +47,33 @@ export const Links = styled.div`
   justify-content: center;
 `;
 
-export const LinkItem = styled.span`
-  color: #d4d4d8;
+export const LinkItem = styled(Link)`
+  color: #a1a1aa;
   font-size: 13px;
+
+  text-decoration: none;
+
+  transition: 0.2s;
+
+  &:hover {
+    color: #ffffff;
+  }
 `;
+
+export const TechText = styled.p`
+  color: #777;
+
+  font-size: 12px;
+
+  text-align: center;
+
+`;
+
+export const Version = styled.p`
+  color: #555;
+
+  font-size: 11px;
+
+  letter-spacing: 1px;
+`;
+

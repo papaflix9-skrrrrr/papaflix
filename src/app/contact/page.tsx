@@ -35,7 +35,7 @@ export default function ContactPage() {
           <S.SectionTitle>E-mail</S.SectionTitle>
 
           <S.Text>
-            contato@papaflix.com
+            contato@papaflix9@gmail.com
           </S.Text>
         </S.Section>
 

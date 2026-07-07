@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef} from "react";
 
 import { TagList } from "@/components/TagList";
 import { VideoGrid } from "@/components/VideoGrid";
@@ -22,6 +22,7 @@ export default function HomeContent() {
   const [isLoading, setIsLoading] = useState(true);
   const searchParams = useSearchParams();
 const searchTerm = searchParams.get("q")?.toLowerCase().trim() ?? "";
+const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     async function loadVideos() {
@@ -61,7 +62,7 @@ const filteredVideos = videos.filter((video) => {
   return matchesTag && matchesSearch;
 });
 
-  const maxVisible = 12;
+  const maxVisible = filteredVideos.length;
 
   const visibleVideos = filteredVideos.slice(0, visibleCount);
 
@@ -79,6 +80,25 @@ const filteredVideos = videos.filter((video) => {
     );
   }
 
+  useEffect(() => {
+  if (!loadMoreRef.current || !canShowMore) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    const entry = entries[0];
+
+    if (entry.isIntersecting) {
+      setVisibleCount((prev) =>
+        Math.min(prev + 4, maxVisible, filteredVideos.length)
+      );
+    }
+  });
+
+  observer.observe(loadMoreRef.current);
+
+  return () => observer.disconnect();
+}, [canShowMore, filteredVideos.length, maxVisible]);
+
+
  if (isLoading) {
   return (
     <main>
@@ -93,6 +113,7 @@ const filteredVideos = videos.filter((video) => {
     </main>
   );
 }
+
 
   return (
     <main>
@@ -110,6 +131,8 @@ const filteredVideos = videos.filter((video) => {
         
 <FavoriteVideos videos={videos} />
 
+ <MediumBanner />
+
       <TagList
         tags={tags}
         selectedTag={selectedTag}
@@ -126,20 +149,21 @@ const filteredVideos = videos.filter((video) => {
             padding: "10px 20px 40px",
           }}
         >
-          <button
-            onClick={handleShowMore}
-            style={{
-              border: "none",
-              borderRadius: 999,
-              padding: "12px 22px",
-              background: "#8b5cf6",
-              color: "#fff",
-              fontWeight: 700,
-              fontSize: 14,
-            }}
-          >
-            Exibir mais
-          </button>
+        {canShowMore && (
+  <div
+    ref={loadMoreRef}
+    style={{
+      height: 40,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      color: "#a1a1aa",
+      fontSize: 13,
+    }}
+  >
+    Carregando mais vídeos...
+  </div>
+)}
         </div>
       )}
 
