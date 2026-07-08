@@ -10,7 +10,7 @@ import { ADMIN_EMAIL } from "@/config/admin";
 import { listenAuthState } from "@/services/auth";
 import { deleteVideo, incrementVideoViews } from "@/services/videos";
 import { HorizontalBanner } from "@/components/Ads/HorizontalBanner";
-import { VideoPreroll } from "@/components/Ads/VideoPreroll";
+// import { VideoPreroll } from "@/components/Ads/VideoPreroll";
 import { trackEvent } from "@/utils/analytics";
 import {
   getProgress,
@@ -31,7 +31,10 @@ export function VideoDetails({ video, videos }: Props) {
   const [isAdmin, setIsAdmin] = useState(false);
   const [views, setViews] = useState(video.views ?? 0);
   const [hasStarted, setHasStarted] = useState(false);
-  const [isPrerollFinished, setIsPrerollFinished] = useState(false);
+
+  // Pré-roll temporariamente desativado.
+  // Na Sprint 2 ele volta integrado ao sistema de monetização.
+  const [isPrerollFinished] = useState(true);
 
   const iframeRef = useRef<HTMLIFrameElement | null>(null);
 
@@ -178,15 +181,27 @@ export function VideoDetails({ video, videos }: Props) {
                   <S.PlayText>Clique para assistir</S.PlayText>
                 </S.PreviewOverlay>
               </S.PlayerPreview>
-            ) : !isPrerollFinished ? (
-              <VideoPreroll onFinish={() => setIsPrerollFinished(true)} />
             ) : (
-              <S.Iframe
-                ref={iframeRef}
-                src={`${video.videoUrl}?autoplay=true&t=${Date.now()}`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
-                allowFullScreen
-              />
+              <>
+                {/*
+                  Pré-roll desativado temporariamente.
+
+                  Na Sprint 2, para reativar, volte com:
+
+                  !isPrerollFinished ? (
+                    <VideoPreroll onFinish={() => setIsPrerollFinished(true)} />
+                  ) : (
+                    <S.Iframe ... />
+                  )
+                */}
+
+                <S.Iframe
+                  ref={iframeRef}
+                  src={`${video.videoUrl}?autoplay=true&t=${Date.now()}`}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                  allowFullScreen
+                />
+              </>
             )}
           </S.PlayerArea>
 
@@ -199,28 +214,23 @@ export function VideoDetails({ video, videos }: Props) {
 
             <S.ActionsRow>
               <S.SaveButton onClick={handleSave}>❤️ Salvar</S.SaveButton>
+
               <S.ShareButton onClick={handleShare}>
                 🔗 Compartilhar
               </S.ShareButton>
             </S.ActionsRow>
 
-          {isAdmin && (
-    <S.AdminActions>
+            {isAdmin && (
+              <S.AdminActions>
+                <S.EditButton href={`/admin/videos/${video.id}/edit`}>
+                  Editar
+                </S.EditButton>
 
-        <S.EditButton
-            href={`/admin/videos/${video.id}/edit`}
-        >
-            Editar
-        </S.EditButton>
-
-        <S.DeleteButton
-            onClick={handleDelete}
-        >
-            Excluir
-        </S.DeleteButton>
-
-    </S.AdminActions>
-)}
+                <S.DeleteButton onClick={handleDelete}>
+                  Excluir
+                </S.DeleteButton>
+              </S.AdminActions>
+            )}
 
             <S.TagsContainer>
               {(video.tags ?? []).map((tag) => (
